@@ -1,0 +1,51 @@
+# Node modules
+node_modules/
+
+# Build output
+.next/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+# PM2 process dump
+dump.pm2
+
+# Optional: static deploy folder if you're exporting
+public/static-export/
+
+# Coverage if testing
+coverage/
+
+# Ignore service account credentials
+src/lib/credentials/annsmuiza-bookings-54b50ec53fbc.json
+/public/uploads/
+FETCH_HEAD
+annsmuiza-web@0.1.0
+next

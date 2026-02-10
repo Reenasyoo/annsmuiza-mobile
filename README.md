@@ -16,7 +16,7 @@ The app is admin-only and focuses on speed, clarity, and reliability.
 
 🧱 Tech Stack
 	•	React Native + Expo
-	•	Postgress/SQL + docker
+	•	Postgress/SQL + docker + PrismaDB
 	•	Next.js REST API (existing backend)
 	•	JWT Authentication (access + refresh tokens)
 	•	React Query – server state management

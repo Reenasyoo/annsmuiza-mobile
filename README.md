@@ -1,152 +1,105 @@
 # annsmuiza-mobile
 
-1. Goal
-Create a cross-platform mobile admin app that works with the existing Next.js + PostgreSQL (Prisma) system.
-The app will be used only by admins to manage bookings.
+Admin Mobile App
 
-2. Tech Stack
-Use the following technologies:
-React Native + Expo – to build the mobile app for Android and iOS
+Cross-platform admin mobile application for managing bookings using an existing Next.js + PostgreSQL (Prisma) backend.
 
+⸻
 
-REST API – reuse existing Next.js API routes
+📌 Project Goal
 
+Build a mobile admin app that allows administrators to manage bookings from their phone, fully integrated with the existing web system.
 
-JWT authentication – short-lived access token + refresh token
+The app is admin-only and focuses on speed, clarity, and reliability.
 
+⸻
 
-React Query – for fetching and updating server data
+🧱 Tech Stack
+	•	React Native + Expo
+	•	Next.js REST API (existing backend)
+	•	JWT Authentication (access + refresh tokens)
+	•	React Query – server state management
+	•	React Hook Form – form handling
 
+⸻
 
-React Hook Form – for handling forms (login, filters)
+✨ Core Features (MVP)
 
-
-
-3. Core Features (MVP)
 Authentication
-Admin login
-
-
-Admin logout
-
+	•	Admin login
+	•	Admin logout
 
 Bookings
-Booking list
+	•	Booking list
+	•	Booking filters (status, date)
+	•	Booking detail view
+	•	Booking actions:
+	•	confirm
+	•	cancel
+	•	delete
 
+⸻
 
-Filters (status, date)
+🔌 API Strategy
 
+The mobile app communicates with a dedicated admin API layer:
+	•	POST /api/admin/auth
+	•	GET /api/admin/bookings
 
-Booking detail screen
+API Rules
+	•	Pagination for list endpoints
+	•	Consistent date formatting
+	•	Role-based access (admin only)
+	•	Shared business logic with web admin panel
 
+⸻
 
-Actions:
+🗂 App Structure
 
+Modules
+	•	Auth
+	•	Bookings
 
-confirm booking
+Navigation
+	•	Tab navigation for main sections
+	•	Stack navigation for detail and edit screens
 
+⸻
 
-cancel booking
+🎯 UX Priorities
+	•	Fast booking filtering
+	•	One-tap confirm / cancel actions
+	•	Clear loading and empty states
+	•	Simple, admin-focused UI
 
+⸻
 
-delete booking
+🚀 V1 Enhancements
+	•	Push notifications for new bookings
+	•	Audit log (track admin actions)
+	•	Basic analytics (booking counts, status overview)
 
+⸻
 
+🛠 Development Phases
 
-4. API Strategy
-Create a small admin-only API layer in the Next.js backend:
-/api/admin/auth
+Phase 1 – Foundation
+	•	Initialize Expo project
+	•	Implement authentication
+	•	Define API contracts
 
+Phase 2 – Bookings MVP
+	•	Booking list and detail screens
+	•	Booking status actions
 
-/api/admin/bookings
+Phase 3 – Notifications & Hardening
+	•	Push notifications
+	•	Security and performance improvements
 
+⸻
 
-API rules:
-Use pagination for lists
-
-
-Use consistent date format
-
-
-Protect routes by role (admin only)
-
-
-Reuse the same business logic as the web admin panel
-
-
-
-5. App Structure
-Main sections:
-Auth
-
-
-Bookings
-
-
-Navigation:
-Tab navigation for main sections
-
-
-Stack navigation for detail and edit screens
-
-
-
-6. UX Priorities
-Fast and simple booking filters
-
-
-One-tap confirm / cancel buttons
-
-
-Clear loading and empty states
-
-
-Simple, readable layouts (admin-focused)
-
-
-
-7. V1 Enhancements (after MVP)
-Push notifications for new bookings
-
-
-Audit log (track changes)
-
-
-Basic analytics (booking count, status)
-
-
-
-8. Development Phases
-Foundation
-
-
-Setup Expo project
-
-
-Implement authentication
-
-
-Define API contracts
-
-
-Bookings MVP
-
-
-Booking list and detail views
-
-
-Booking actions (confirm, cancel, delete)
-
-
-Notifications & Hardening
-
-
-Push notifications
-
-
-Security and performance improvements
-
-
-
-
+📚 Notes
+	•	The app reuses the existing backend and database
+	•	No separate backend is required
+	•	Expo free tier is sufficient for this project
 

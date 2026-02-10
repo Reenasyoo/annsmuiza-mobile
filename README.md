@@ -16,10 +16,12 @@ The app is admin-only and focuses on speed, clarity, and reliability.
 
 🧱 Tech Stack
 	•	React Native + Expo
+	•	Postgress/SQL + docker
 	•	Next.js REST API (existing backend)
 	•	JWT Authentication (access + refresh tokens)
 	•	React Query – server state management
 	•	React Hook Form – form handling
+	
 
 ⸻
 

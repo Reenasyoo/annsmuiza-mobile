@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookings - Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 8px;
+            max-width: 900px;
+            margin: 0 auto;
+            font-size: 13px;
+        }
+        .profile-card {
+            max-width: 100%;
+            padding: 12px;
+        }
+        h2 {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .stat-card {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .stat-label {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 2px;
+        }
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .status-overview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .status-card {
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 11px;
+        }
+        .status-card.confirmed { background: #d1fae5; color: #065f46; }
+        .status-card.pending { background: #fef3c7; color: #92400e; }
+        .status-card.cancelled { background: #fee2e2; color: #991b1b; }
+        .status-card div:first-child {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+        .view-toggle {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .view-btn {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .view-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        #calendar {
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 8px;
+        }
+        .calendar-header h3 {
+            margin: 0;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+        .calendar-nav {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        .calendar-nav button {
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 11px;
+            border: 1px solid #9ca3af;
+            background: #374151;
+            color: white;
+            border-radius: 4px;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        .calendar-nav button:hover {
+            background: #1f2937;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #e5e7eb;
+            border: 1px solid #e5e7eb;
+        }
+        .calendar-day-header {
+            background: #f3f4f6;
+            padding: 4px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 10px;
+        }
+        .calendar-day {
+            background: white;
+            min-height: 45px;
+            padding: 2px;
+            position: relative;
+        }
+        .calendar-day-number {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 1px;
+        }
+        .calendar-day.other-month {
+            background: #f9fafb;
+            color: #9ca3af;
+        }
+        .booking-event {
+            font-size: 9px;
+            padding: 1px 3px;
+            margin: 1px 0;
+            border-radius: 2px;
+            cursor: pointer;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .booking-event.confirmed { background: #10b981; color: white; }
+        .booking-event.pending { background: #f59e0b; color: white; }
+        .booking-event.cancelled { background: #ef4444; color: white; }
+        .booking-table {
+            width: 100%;
+            background: white;
+            border-radius: 6px;
+            overflow-x: auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .booking-table table {
+            width: 100%;
+            min-width: 700px;
+        }
+        .booking-table th, .booking-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 12px;
+        }
+        .booking-table th {
+            background: #f3f4f6;
+            font-weight: bold;
+        }
+        .booking-table button {
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+        .status-badge {
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+        .status-badge.confirmed { background: #d1fae5; color: #065f46; }
+        .status-badge.pending { background: #fef3c7; color: #92400e; }
+        .status-badge.cancelled { background: #fee2e2; color: #991b1b; }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #374151;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn-group button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .extra-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #e5e7eb;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 5px 5px 0 0;
+            font-size: 13px;
+        }
+        .extra-tag button {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+        }
+        .search-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .search-filter input, .search-filter select {
+            padding: 6px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .search-filter input {
+            flex: 1;
+            min-width: 180px;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .status-overview {
+                grid-template-columns: 1fr;
+            }
+            .calendar-day {
+                min-height: 40px;
+            }
+            .modal-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; gap: 10px; flex-wrap: wrap;">
+        <h2>All Bookings</h2>
+        <div style="display: flex; gap: 8px;">
+            <button id="newBookingBtn" style="background: #3b82f6; color: white; padding: 6px 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: 500; font-size: 13px;">
+                + New Booking
+            </button>
+            <button onclick="window.location.href='/admin.html'" style="background: #6b7280; color: white; padding: 6px 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px;">
+                ← Back
+            </button>
+        </div>
+    </div>
+    
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Total Revenue</div>
+            <div class="stat-value" id="totalRevenue">€0.00</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Upcoming Bookings</div>
+            <div class="stat-value" id="upcomingCount">0</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Confirmation Rate</div>
+            <div class="stat-value" id="confirmationRate">0%</div>
+        </div>
+    </div>
+
+    <!-- Status Overview -->
+    <div class="status-overview">
+        <div class="status-card confirmed">
+            <div style="font-size: 24px; font-weight: bold;" id="confirmedCount">0</div>
+            <div>Confirmed</div>
+        </div>
+        <div class="status-card pending">
+            <div style="font-size: 24px; font-weight: bold;" id="pendingCount">0</div>
+            <div>Pending</div>
+        </div>
+        <div class="status-card cancelled">
+            <div style="font-size: 24px; font-weight: bold;" id="cancelledCount">0</div>
+            <div>Cancelled</div>
+        </div>
+    </div>
+
+    <!-- View Toggle -->
+    <div class="view-toggle">
+        <button class="view-btn active" id="calendarViewBtn">📅 Calendar View</button>
+        <button class="view-btn" id="listViewBtn">📋 List View</button>
+    </div>
+
+    <!-- Calendar View -->
+    <div id="calendarView">
+        <div id="calendar">
+            <div class="calendar-header">
+                <h3 id="calendarMonth">February 2026</h3>
+                <div class="calendar-nav">
+                    <button id="prevMonth">◀ Prev</button>
+                    <button id="todayBtn">Today</button>
+                    <button id="nextMonth">Next ▶</button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+    </div>
+
+    <!-- List View -->
+    <div id="listView" style="display: none;">
+        <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="Search bookings..." style="flex: 1;">
+            <select id="statusFilter">
+                <option value="all">All Statuses</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="pending">Pending</option>
+                <option value="cancelled">Cancelled</option>
+            </select>
+        </div>
+        <div class="booking-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Items</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Guests</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingTableBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <button id="logoutBtn" style="margin-top: 20px;">Logout</button>
+</div>
+
+<!-- Create/Edit Booking Modal -->
+<div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 id="modalTitle" style="margin: 0;">Create New Booking</h2>
+            <button type="button" id="cancelModal" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">×</button>
+        </div>
+        <form id="bookingForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label>First Name *</label>
+                    <input type="text" id="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name *</label>
+                    <input type="text" id="lastName" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="customerEmail" required>
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="tel" id="customerPhone">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label>Start Date *</label>
+                    <input type="date" id="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label>End Date *</label>
+                    <input type="date" id="endDate" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Bookable *</label>
+                <select id="bookingItem" required>
+                    <option value="">Select a bookable</option>
+                    <option value="Jūras māja">Jūras māja</option>
+                    <option value="Meža māja">Meža māja</option>
+                    <option value="Kalnu māja">Kalnu māja</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Number of Guests *</label>
+                <input type="number" id="guests" value="1" min="1" required>
+            </div>
+            <div class="form-group">
+                <label>Status *</label>
+                <select id="bookingStatus" required>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="description" rows="3" placeholder="Add any additional notes or special requests..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Extras</label>
+                <select id="extraSelect">
+                    <option value="">Select an existing extra...</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Late checkout">Late checkout</option>
+                    <option value="Airport transfer">Airport transfer</option>
+                </select>
+                <button type="button" id="addExtraBtn" style="margin-top: 5px; width: auto; padding: 8px 15px;">Add</button>
+                <input type="text" id="newExtra" placeholder="Or add a new extra..." style="margin-top: 10px;">
+                <button type="button" id="addNewExtraBtn" style="margin-top: 5px; width: auto; padding: 8px 15px;">Add New</button>
+                <div id="extrasList" style="margin-top: 10px;"></div>
+            </div>
+            <div class="btn-group" style="justify-content: flex-end;">
+                <button type="button" id="cancelModalBtn" style="background: #e5e7eb; color: #374151;">Cancel</button>
+                <button type="submit" id="submitBookingBtn" style="background: #3b82f6; color: white;">Create Booking</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/script.js"></script>
+</body>
+</html>

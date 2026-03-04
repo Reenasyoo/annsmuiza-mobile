@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "id": "e347d873-56a6-4d35-9b7c-5497dc3fcf15",
+      "username": "krisjanis",
+      "password": "$2b$12$vFQtyDjPbrPzWkuek3DNKuBffL5zGsHNQ0hyR7TAwS3UI8Q5JuzWe",
+      "role": "admin"
+    },
+    {
+      "id": "2542f613-a182-49b9-9c2a-0c4d07a05f50",
+      "username": "lauris",
+      "password": "$2b$12$lERECwG.ZwMr7P6ktnzt..YMvxpSLYmEkTDjPztNC8lOZvrlslTHm",
+      "role": "worker"
+    }
+  ],
+  "roles": [
+    {
+      "name": "admin",
+      "permissions": [
+        "manage_users",
+        "manage_roles",
+        "view_dashboard",
+        "edit_content"
+      ]
+    },
+    {
+      "name": "worker",
+      "permissions": [
+        "view_dashboard"
+      ]
+    }
+  ],
+  "bookings": []
+}

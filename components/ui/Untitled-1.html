@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .box {
+            background: white;
+            padding: 20px;
+            width: 300px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        input, button {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box" id="loginBox">
+    <h2>Admin Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="adminLogin()">Login</button>
+    <p id="message"></p>
+</div>
+
+<div class="box" id="profileBox" style="display:none;">
+    <h2>Admin Profile</h2>
+    <p>👤 Username: admin</p>
+    <p>🔐 Role: Administrator</p>
+    <button onclick="adminLogout()">Logout</button>
+</div>
+
+<script>
+    // Authentication data
+    const ADMIN_USERNAME = "admin";
+    const ADMIN_PASSWORD = "1234";
+
+    function adminLogin() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const message = document.getElementById("message");
+
+        if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+            message.textContent = "✅ Login successful";
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("profileBox").style.display = "block";
+        } else {
+            message.textContent = "❌ Invalid username or password";
+        }
+    }
+
+    function adminLogout() {
+        document.getElementById("loginBox").style.display = "block";
+        document.getElementById("profileBox").style.display = "none";
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("message").textContent = "";
+    }
+</script>
+
+</body>
+</html>

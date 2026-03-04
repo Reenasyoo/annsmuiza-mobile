@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    height: 100vh;
+    background: linear-gradient(135deg, #c9a66b, #e6c79c);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card, .profile-card {
+    width: 400px;
+    padding: 40px;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background: #b8894f;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #9f743e;
+}

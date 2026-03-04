@@ -1,0 +1,20 @@
+{
+  "users": [],
+  "roles": [
+    {
+      "name": "admin",
+      "permissions": [
+        "manage_users",
+        "manage_roles",
+        "view_dashboard",
+        "edit_content"
+      ]
+    },
+    {
+      "name": "worker",
+      "permissions": [
+        "view_dashboard"
+      ]
+    }
+  ]
+}

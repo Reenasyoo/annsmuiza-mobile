@@ -55,3 +55,4 @@ next
 
 expo-env.d.ts
 # @end expo-cli
+package-lock.json
